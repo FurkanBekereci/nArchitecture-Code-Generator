@@ -1,0 +1,50 @@
+﻿using AutoMapper;
+using Core.Application.Requests;
+using Core.Persistence.Paging;
+using Core.Persistence.Dynamic;
+using {applicationProjectName}.Features.{entityNamePlural}.Models;
+using {applicationProjectName}.Features.{entityNamePlural}.Rules;
+using {applicationProjectName}.Services.Repositories;
+using {domainProjectName}.Entities;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace {namespace}
+{
+    public class {name} : IRequest<{dtoName}>
+    {
+        public PageRequest PageRequest { get; set; }
+        public Dynamic Dynamic { get; set; }
+
+        public class {name}Handler : IRequestHandler<{name}, {dtoName}>
+        {
+            private readonly I{entityName}Repository _{entityNameCamelCase}Repository;
+            private readonly IMapper _mapper;
+            private readonly {entityName}BusinessRules _{entityNameCamelCase}BusinessRules;
+
+            public {name}Handler(I{entityName}Repository {entityNameCamelCase}Repository, IMapper mapper, {entityName}BusinessRules {entityNameCamelCase}BusinessRules)
+            {
+                _{entityNameCamelCase}Repository = {entityNameCamelCase}Repository;
+                _mapper = mapper;
+                _{entityNameCamelCase}BusinessRules = {entityNameCamelCase}BusinessRules;
+            }
+
+            public async Task<{dtoName}> Handle({name} request, CancellationToken cancellationToken)
+            {
+                IPaginate<{entityName}> {entityNameCamelCase}List = await _{entityNameCamelCase}Repository.GetListByDynamicAsync(
+                                                    request.Dynamic, 
+                                                    index: request.PageRequest.Page, 
+                                                    size: request.PageRequest.PageSize
+                                                    );
+                {dtoName} {dtoNameCamelCase} = _mapper.Map<{dtoName}>({entityNameCamelCase}List);
+                return {dtoNameCamelCase};
+
+            }
+        }
+    }
+}

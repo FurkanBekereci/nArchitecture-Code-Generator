@@ -1,0 +1,63 @@
+﻿using Core.Application.Requests;
+using Core.Persistence.Dynamic;
+using {applicationProjectName}.Features.{entityNamePlural}.Commands.Create{entityName};
+using {applicationProjectName}.Features.{entityNamePlural}.Commands.Delete{entityName};
+using {applicationProjectName}.Features.{entityNamePlural}.Commands.Update{entityName};
+using {applicationProjectName}.Features.{entityNamePlural}.Dtos;
+using {applicationProjectName}.Features.{entityNamePlural}.Models;
+using {applicationProjectName}.Features.{entityNamePlural}.Queries.GetById{entityName};
+using {applicationProjectName}.Features.{entityNamePlural}.Queries.GetList{entityName};
+using {applicationProjectName}.Features.{entityNamePlural}.Queries.GetList{entityName}ByDynamic;
+using Microsoft.AspNetCore.Mvc;
+
+namespace {namespace}
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class {name} : BaseController
+    {
+        [HttpPost]
+        public async Task<IActionResult> Add([FromBody] Create{entityName}Command create{entityName}Command)
+        {
+            Created{entityName}Dto result = await Mediator!.Send(create{entityName}Command);
+            return Created("", result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
+        {
+            GetList{entityName}Query getList{entityName}Query = new() { PageRequest = pageRequest };
+            {entityName}ListModel result = await Mediator!.Send(getList{entityName}Query);
+            return Ok(result);
+        }
+
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> GetById([FromRoute] GetById{entityName}Query getById{entityName}Query)
+        {
+            {entityName}GetByIdDto {entityNameCamelCase}GetByIdDto = await Mediator!.Send(getById{entityName}Query);
+            return Ok({entityNameCamelCase}GetByIdDto);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Update([FromBody] Update{entityName}Command update{entityName}Command)
+        {
+            Updated{entityName}Dto updated{entityName}Dto = await Mediator!.Send(update{entityName}Command);
+            return Ok(updated{entityName}Dto);
+        }
+
+        [HttpDelete("{Id}")]
+        public async Task<ActionResult> Delete([FromRoute] Delete{entityName}Command delete{entityName}Command)
+        {
+            Deleted{entityName}Dto deleted{entityName}Dto = await Mediator!.Send(delete{entityName}Command);
+            return Ok(deleted{entityName}Dto);
+        }
+
+        [HttpPost("GetList/ByDynamic")]
+        public async Task<ActionResult> GetListByDynamic([FromQuery] PageRequest pageRequest, [FromBody] Dynamic dynamic)
+        {
+            GetList{entityName}ByDynamicQuery getList{entityName}ByDynamicQuery = new GetList{entityName}ByDynamicQuery { PageRequest = pageRequest, Dynamic = dynamic };
+            {entityName}ListModel result = await Mediator!.Send(getList{entityName}ByDynamicQuery);
+            return Ok(result);
+        }
+    }
+}

@@ -1,0 +1,36 @@
+﻿using AutoMapper;
+using {applicationProjectName}.Features.{entityNamePlural}.Dtos;
+using {applicationProjectName}.Features.{entityNamePlural}.Rules;
+using {applicationProjectName}.Services.Repositories;
+using {domainProjectName}.Entities;
+using MediatR;
+
+namespace {namespace}
+{
+    public class {name} : IRequest<{dtoName}>
+    {
+        public int Id { get; set; }
+        public class {name}Handler : IRequestHandler<{name}, {dtoName}>
+        {
+            private readonly I{entityName}Repository _{entityNameCamelCase}Repository;
+            private readonly IMapper _mapper;
+            private readonly {entityName}BusinessRules _{entityNameCamelCase}BusinessRules;
+
+            public {name}Handler(I{entityName}Repository {entityNameCamelCase}Repository, IMapper mapper, {entityName}BusinessRules {entityNameCamelCase}BusinessRules)
+            {
+                _{entityNameCamelCase}Repository = {entityNameCamelCase}Repository;
+                _mapper = mapper;
+                _{entityNameCamelCase}BusinessRules = {entityNameCamelCase}BusinessRules;
+            }
+
+            public async Task<{dtoName}> Handle({name} request, CancellationToken cancellationToken)
+            {
+                {entityName} {entityNameCamelCase} = await _{entityNameCamelCase}Repository.GetAsync(e => e.Id == request.Id);
+
+                {dtoName} {dtoNameCamelCase} = _mapper.Map<{dtoName}>({entityNameCamelCase});
+
+                return {dtoNameCamelCase};
+            }
+        }
+    }
+}

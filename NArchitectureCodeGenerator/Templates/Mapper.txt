@@ -1,0 +1,28 @@
+﻿using AutoMapper;
+using Core.Persistence.Paging;
+using {applicationProjectName}.Features.{entityNamePlural}.Commands.Create{entityName};
+using {applicationProjectName}.Features.{entityNamePlural}.Dtos;
+using {applicationProjectName}.Features.{entityNamePlural}.Models;
+using {domainProjectName}.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace {namespace}
+{
+    public class MappingProfiles : Profile
+    {
+        public MappingProfiles()
+        {
+            CreateMap<{entityName}, Create{entityName}Command>().ReverseMap();
+            CreateMap<{entityName}, Created{entityName}Dto>().ReverseMap();
+            CreateMap<{entityName}, Updated{entityName}Dto>().ReverseMap();
+            CreateMap<{entityName}, Deleted{entityName}Dto>().ReverseMap();
+            CreateMap<IPaginate<{entityName}>, {entityName}ListModel>().ReverseMap();
+            CreateMap<{entityName}, {entityName}GetByIdDto>().ReverseMap();
+            CreateMap<{entityName}, {entityName}ListDto>().ReverseMap();
+        }
+    }
+}
