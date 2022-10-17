@@ -90,10 +90,10 @@
     <Compile Include="CodeGenerator\TemplateOperations\Service\ITemplateService.cs" />
     <Compile Include="CodeGenerator\TemplateOperations\Service\TemplateManager.cs" />
     <Compile Include="Commands\CodeGeneratorCommand.cs" />
-    <Compile Include="Commands\NArchitectureCodeGeneratorPackage.cs">
+    <Compile Include="NArchitectureCodeGeneratorPackageCT.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>NArchitectureCodeGeneratorPackage.vsct</DependentUpon>
+      <DependentUpon>NArchitectureCodeGeneratorPackageCT.vsct</DependentUpon>
     </Compile>
     <Compile Include="Extensions\SelectedItemExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
@@ -128,22 +128,22 @@
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.3.2093" />
   </ItemGroup>
   <ItemGroup>
-    <VSCTCompile Include="Commands\NArchitectureCodeGeneratorPackage.vsct">
+    <VSCTCompile Include="NArchitectureCodeGeneratorPackageCT.vsct">
       <Generator>VsctGenerator</Generator>
       <ResourceName>Menus.ctmenu</ResourceName>
-      <LastGenOutput>NArchitectureCodeGeneratorPackage.cs</LastGenOutput>
+      <LastGenOutput>NArchitectureCodeGeneratorPackageCT.cs</LastGenOutput>
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Commands\Resources\CodeGeneratorCommand.png" />
+    <Content Include="Resources\CodeGeneratorCommand.png" />
     <Content Include="Resources\icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Templates\*.*" >
-	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="Templates\*.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
-	</Content>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CodeGenerator\FileOperations\Entities\" />

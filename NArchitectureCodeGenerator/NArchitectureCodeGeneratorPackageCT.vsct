@@ -10,10 +10,25 @@
       <Group guid="guidNArchitectureCodeGeneratorPackageCmdSet" id="CodeGeneratorMenuGroup" priority="0x0001">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE"/>
       </Group>
+      <Group guid="guidNArchitectureCodeGeneratorPackageCmdSet" id="nArchitectureMenuGroup" priority="0x1000">
+        <Parent guid="guidNArchitectureCodeGeneratorPackageCmdSet" id="nArchitectureRootMenu"/>
+      </Group>
     </Groups>
+    
+    <Menus>
+      <Menu guid="guidNArchitectureCodeGeneratorPackageCmdSet" id="nArchitectureRootMenu" type="Menu" priority="0x1000">
+        <Parent guid="guidNArchitectureCodeGeneratorPackageCmdSet" id="CodeGeneratorMenuGroup" />
+        <CommandFlag>IconAndText</CommandFlag>
+        <Strings>
+          <ButtonText>nArchitecture Items</ButtonText>
+          <CommandName>nArchitecture Menu</CommandName>
+        </Strings>
+      </Menu>
+    </Menus>
+    
     <Buttons>
       <Button guid="guidNArchitectureCodeGeneratorPackageCmdSet" id="CodeGeneratorCommandId" priority="0x0100" type="Button">
-        <Parent guid="guidNArchitectureCodeGeneratorPackageCmdSet" id="CodeGeneratorMenuGroup" />
+        <Parent guid="guidNArchitectureCodeGeneratorPackageCmdSet" id="nArchitectureMenuGroup" />
         <Icon guid="guidImages" id="Img1" />
         <Strings>
           <ButtonText>Generate Codes By Entity</ButtonText>
@@ -21,7 +36,7 @@
       </Button>
     </Buttons>
     <Bitmaps>
-      <Bitmap guid="guidImages" href="..\Resources\icon.png" usedList="Img1" />
+      <Bitmap guid="guidImages" href="Resources\icon.png" usedList="Img1" />
     </Bitmaps>
   </Commands>
 
@@ -30,6 +45,8 @@
     <GuidSymbol name="guidNArchitectureCodeGeneratorPackageCmdSet" value="{d7dda713-9385-4a96-94e6-4241e00ad46a}">
       <IDSymbol name="CodeGeneratorMenuGroup" value="0x1020" />
       <IDSymbol name="CodeGeneratorCommandId" value="0x0100" />
+      <IDSymbol name="nArchitectureRootMenu" value="0x1021"/>
+      <IDSymbol name="nArchitectureMenuGroup" value="0x1022"/>
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{47521464-f92c-4b34-a72c-b3d60f03493e}" >
