@@ -8,13 +8,10 @@ using Microsoft.VisualStudio.Shell.Interop;
 using NArchitectureCodeGenerator.CodeGenerator.Service;
 using NArchitectureCodeGenerator.Extensions;
 using NArchitectureCodeGenerator.Helpers;
+using NArchitectureCodeGenerator.Helpers.EntityAnalyzer.Service;
+using NArchitectureCodeGenerator.Helpers.FileHelper.Service;
 using System;
-using System.ComponentModel.Design;
-using System.Globalization;
-using System.Threading;
-using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
-using Thread = System.Threading.Thread;
 
 namespace NArchitectureCodeGenerator.Commands
 {
@@ -30,9 +27,17 @@ namespace NArchitectureCodeGenerator.Commands
         private static DIToolkitPackage _package;
         private static DTE2 _dte;
         private readonly ICodeGeneratorService _codeGeneratorService;
-        public CodeGeneratorCommand(DIToolkitPackage package, ICodeGeneratorService codeGeneratorService) : base(package)
+        private readonly IFileService _fileService;
+        private readonly IEntityAnalyzerService _entityAnalyzerService;
+        
+        public CodeGeneratorCommand(DIToolkitPackage package, 
+                                ICodeGeneratorService codeGeneratorService,
+                                IFileService fileService,
+                                IEntityAnalyzerService entityAnalyzerService) : base(package)
         {
             _codeGeneratorService = codeGeneratorService;
+            _fileService = fileService;
+            _entityAnalyzerService = entityAnalyzerService;
             SetProperties(package);
         }
 
@@ -45,16 +50,8 @@ namespace NArchitectureCodeGenerator.Commands
         protected async override Task ExecuteAsync(OleMenuCmdEventArgs e)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            ProgressDialogHelper.ShowDialog(StartCodeGeneration);
+            await ProgressDialogHelper.ShowDialogAsync(StartCodeGeneration);
 
-            VsShellUtilities.ShowMessageBox(
-                   _package,
-                   "Process finished!!",
-                   "Done!!",
-                   OLEMSGICON.OLEMSGICON_INFO,
-                   OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                   OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST
-                );
         }
 
         private void StartCodeGeneration()
@@ -80,31 +77,37 @@ namespace NArchitectureCodeGenerator.Commands
 
             //Removing extension from selected item name, for example Brand.cs => Brand 
             var entityName = selectedItem.GetEntityName();
+            var selectedItemFilePath = selectedItem.GetFilePath();
 
             //Get solution(or root folder) path of selected item's project
-            var rootPath = selectedItem.GetSolutionFolderPath();
-            PathHelper.RootPath = rootPath;
-
-            //List project folders
-            var projectList = FileHelper.FindFoldersOfGivenPath(rootPath);
-
-            //Set project names to static class
-            ProjectHelper.SetProjectNames(projectList);
+            ProjectHelper.RootPath = _fileService.GetSolutionFolderPathOfEntity(selectedItemFilePath);
+            ProjectHelper.FolderPathsOfProject = _fileService.FindFoldersOfGivenPath(ProjectHelper.RootPath);
+            ProjectHelper.SelectedEntityInfo = _entityAnalyzerService.GetAnalyzedEntityInfo(entityName);
 
             //Beklenmedik hata ile karşılaşılması durumunda kontrol amaçlı
             try
             {
+                _codeGeneratorService.GenerateAllDependentCodesForEntity(ProjectHelper.SelectedEntityInfo, ProjectHelper.RootPath);
 
-                _codeGeneratorService.GenerateCodes(entityName, rootPath);
+                VsShellUtilities.ShowMessageBox(
+                  _package,
+                  "Process finished!!",
+                  "Done!!",
+                  OLEMSGICON.OLEMSGICON_INFO,
+                  OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                  OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST
+               );
             }
             catch (Exception ex)
             {
-                // TODO: Logla                
-                var message = ex.Message;
-            }
-            finally
-            {
-                
+                VsShellUtilities.ShowMessageBox(
+                  _package,
+                  ex.Message,
+                  "Done!!",
+                  OLEMSGICON.OLEMSGICON_WARNING,
+                  OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                  OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST
+               );
             }
         }
     }

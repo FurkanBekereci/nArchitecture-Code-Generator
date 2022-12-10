@@ -24,5 +24,12 @@ namespace NArchitectureCodeGenerator.Extensions
                 .CreateService(new CultureInfo("en-US"))
                 .Pluralize(value);
         }
+
+        public static string RemoveExtensionFromString(this string value, string extension = null)
+        {
+
+            return value?.Split(new[] { $".{extension ?? ""}" }, StringSplitOptions.None)[0];
+        }
+
     }
 }

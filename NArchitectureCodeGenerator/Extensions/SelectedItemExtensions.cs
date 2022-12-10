@@ -1,36 +1,45 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio.Shell;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NArchitectureCodeGenerator.Extensions
 {
     public static class SelectedItemExtensions
     {
+
         public static bool IsEntity(this SelectedItem selectedItem)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            return selectedItem?.ProjectItem?.Properties?.Item("FullPath").Value.ToString().Contains("Entities") ?? false;
+            return GetFilePath(selectedItem)?.Contains("Domain\\Entities") ?? false;
 
         }
 
         public static string GetEntityName(this SelectedItem selectedItem)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            return selectedItem.Name.Split(new[] { ".cs" }, StringSplitOptions.None)[0];
-
+            return selectedItem.Name.RemoveExtensionFromString();
         }
 
-        public static string GetSolutionFolderPath(this SelectedItem selectedItem)
+        public static string GetFilePath(this SelectedItem selectedItem)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             var filePathStr = selectedItem.ProjectItem?.Properties?.Item("FullPath").Value.ToString();
-            var fileInfo = new FileInfo(filePathStr);
-            var solutionFolderPath = fileInfo.Directory.Parent.Parent.FullName;
-            return solutionFolderPath;
+            return filePathStr;
         }
+
+        //public static string GetParentFolderPath(this SelectedItem selectedItem)
+        //{
+        //    var filePathStr = GetFilePath(selectedItem);
+        //    return PathHelper.GetParentFolderPathOfSelectedEntity(filePathStr);
+        //}
+
+        //public static string GetSolutionFolderPath(this SelectedItem selectedItem)
+        //{
+        //    var filePathStr = GetFilePath(selectedItem);
+        //    return PathHelper.GetSolutionFolderPathOfSelectedEntity(filePathStr);
+        //}
+
+        //public static List<string> GetContent(this SelectedItem selectedItem)
+        //{
+        //    return FileHelpers.ReadLinesFromFile(GetFilePath(selectedItem)).ToList();
+        //}
     }
 }

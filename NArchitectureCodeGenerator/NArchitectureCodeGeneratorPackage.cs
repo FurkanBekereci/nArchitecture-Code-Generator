@@ -2,17 +2,17 @@
 using Community.VisualStudio.Toolkit.DependencyInjection.Microsoft;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Text.Operations;
-using NArchitectureCodeGenerator.CodeGenerator.FileOperations.Service;
-using NArchitectureCodeGenerator.CodeGenerator.PathTreeOperations.PathTreeGenerators.Abstract;
-using NArchitectureCodeGenerator.CodeGenerator.PathTreeOperations.PathTreeGenerators.Concrete;
-using NArchitectureCodeGenerator.CodeGenerator.PathTreeOperations.Service;
 using NArchitectureCodeGenerator.CodeGenerator.Service;
-using NArchitectureCodeGenerator.CodeGenerator.ServiceRegistrationOperations.Registrators.Abstract;
-using NArchitectureCodeGenerator.CodeGenerator.ServiceRegistrationOperations.Registrators.Concrete;
-using NArchitectureCodeGenerator.CodeGenerator.ServiceRegistrationOperations.Service;
-using NArchitectureCodeGenerator.CodeGenerator.TemplateOperations.Service;
-using NArchitectureCodeGenerator.Commands;
+using NArchitectureCodeGenerator.Helpers.EntityAnalyzer.Service;
+using NArchitectureCodeGenerator.Helpers.FileAppenderHelper.Appenders.Abstract;
+using NArchitectureCodeGenerator.Helpers.FileAppenderHelper.Appenders.Concrete;
+using NArchitectureCodeGenerator.Helpers.FileAppenderHelper.Service;
+using NArchitectureCodeGenerator.Helpers.FileHelper.Service;
+using NArchitectureCodeGenerator.Helpers.PathTreeHelper.PathTreeGenerators.Abstract;
+using NArchitectureCodeGenerator.Helpers.PathTreeHelper.PathTreeGenerators.Concrete;
+using NArchitectureCodeGenerator.Helpers.PathTreeHelper.Service;
+using NArchitectureCodeGenerator.Helpers.TemplateHelper.Service;
+using NArchitectureCodeGenerator.RelationGenerator.Service;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -34,19 +34,24 @@ namespace NArchitectureCodeGenerator
             base.InitializeServices(services);
 
             // Registering services here
-            services.AddSingleton<IFileOperationService, FileOperationManager>();
+            services.AddSingleton<IFileService, FileManager>();
             services.AddSingleton<IPathTreeOperationService, PathTreeOperationManager>();
             services.AddSingleton<ICodeGeneratorService, CodeGeneratorManager>();
             services.AddSingleton<ITemplateService, TemplateManager>();
-            services.AddSingleton<IServiceRegistrationService, ServiceRegistrationManager>();
+            services.AddSingleton<IFileAppenderService, FileAppenderManager>();
+            services.AddSingleton<IEntityAnalyzerService, EntityAnalyzerManager>();
+            services.AddSingleton<IRelationGeneratorService, RelationGeneratorManager>();
 
             services.AddTransient<IPathTreeGenerator, ApplicationPathTreeGenerator>();
             services.AddTransient<IPathTreeGenerator, PersistencePathTreeGenerator>();
             services.AddTransient<IPathTreeGenerator, WebApiPathTreeGenerator>();
 
-            services.AddTransient<BaseRegistrator, ApplicationServiceRegistrator>();
-            services.AddTransient<BaseRegistrator, PersistenceServiceRegistrator>();
-            services.AddTransient<BaseRegistrator, DbContextRegistrator>();
+            services.AddTransient<BaseAppenderForCodeGenerator, ApplicationServiceRegistrationAppender>();
+            services.AddTransient<BaseAppenderForCodeGenerator, PersistenceServiceRegistrationAppender>();
+            services.AddTransient<BaseAppenderForCodeGenerator, DbContextAppender>();
+
+            services.AddTransient<BaseAppenderForRelationGenerator, EntityAppender>();
+            services.AddTransient<BaseAppenderForRelationGenerator, EntityTypeConfigurationAppender>();
 
             //// Registers command from assembly
             services.RegisterCommands(ServiceLifetime.Singleton);

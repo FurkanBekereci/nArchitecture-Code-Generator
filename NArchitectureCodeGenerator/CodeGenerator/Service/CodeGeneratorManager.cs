@@ -1,50 +1,47 @@
-﻿using Microsoft.VisualStudio.Text.Operations;
-using NArchitectureCodeGenerator.CodeGenerator.FileOperations.Service;
-using NArchitectureCodeGenerator.CodeGenerator.PathTreeOperations.Entities.Abstract;
-using NArchitectureCodeGenerator.CodeGenerator.PathTreeOperations.Entities.Concrete;
-using NArchitectureCodeGenerator.CodeGenerator.PathTreeOperations.Service;
-using NArchitectureCodeGenerator.CodeGenerator.ServiceRegistrationOperations.Service;
-using NArchitectureCodeGenerator.CodeGenerator.TemplateOperations.Entities.Abstract;
-using NArchitectureCodeGenerator.CodeGenerator.TemplateOperations.Service;
-using System;
+﻿using NArchitectureCodeGenerator.Helpers;
+using NArchitectureCodeGenerator.Helpers.EntityAnalyzer.Entities;
+using NArchitectureCodeGenerator.Helpers.FileAppenderHelper.Service;
+using NArchitectureCodeGenerator.Helpers.FileHelper.Service;
+using NArchitectureCodeGenerator.Helpers.PathTreeHelper.Entities.Abstract;
+using NArchitectureCodeGenerator.Helpers.PathTreeHelper.Entities.Concrete;
+using NArchitectureCodeGenerator.Helpers.PathTreeHelper.Service;
+using NArchitectureCodeGenerator.Helpers.TemplateHelper.Entities.Abstract;
+using NArchitectureCodeGenerator.Helpers.TemplateHelper.Service;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NArchitectureCodeGenerator.CodeGenerator.Service
 {
     public class CodeGeneratorManager : ICodeGeneratorService
     {
 
-        private readonly IFileOperationService _fileOperationService;
+        private readonly IFileService _fileService;
         private readonly IPathTreeOperationService _pathTreeOperationService;
-        private readonly IServiceRegistrationService _serviceRegistrationService;
+        private readonly IFileAppenderService _serviceRegistrationService;
         private readonly ITemplateService _templateService;
 
-        public CodeGeneratorManager(IFileOperationService fileOperationService, 
+        public CodeGeneratorManager(IFileService fileService, 
                                     IPathTreeOperationService pathTreeOperationService, 
-                                    IServiceRegistrationService serviceRegistrationService, 
+                                    IFileAppenderService serviceRegistrationService, 
                                     ITemplateService templateService)
         {
-            _fileOperationService = fileOperationService;
+            _fileService = fileService;
             _pathTreeOperationService = pathTreeOperationService;
             _serviceRegistrationService = serviceRegistrationService;
             _templateService = templateService;
         }
 
-        public void GenerateCodes(string entityName, string rootFolderPath)
+        public void GenerateAllDependentCodesForEntity(EntityInfo entityInfo, string rootFolderPath)
         {
             //Her projeye ait treeler bir liste içinde toplandı
-            List<BaseTreeNode> treeList = _pathTreeOperationService.GetTreeList(entityName);
+            List<BaseTreeNode> treeList = _pathTreeOperationService.GetTreeList(entityInfo);
 
             treeList.ForEach(tree =>
             {
-                TraverseAllPath(tree, $"{rootFolderPath}\\{tree.Name}", tree.Name, entityName);
+                TraverseAllPath(tree, $"{rootFolderPath}\\{tree.Name}", tree.Name, entityInfo.Name);
             });
 
             //Add registrations
-            _serviceRegistrationService.RegisterAllRequiredServices(entityName);
+            _serviceRegistrationService.AppendLinesForCodeGenerator(entityInfo);
         }
 
         private void TraverseAllPath(BaseTreeNode root, string parentPath, string @namespace, string entityName)
@@ -55,25 +52,44 @@ namespace NArchitectureCodeGenerator.CodeGenerator.Service
                 if (item.IsLeaf)
                 {
                     //Here is deepest node that is structured leaf node.
-                    var leafItem = item as LeafTreeNode;
-
-                    //Caution, this is special for class templates to add namespace
-                    //As i think, this if block will not be longer with else ifs
-                    if (leafItem.TemplateValueHolder is ITemplateClassHolder)
-                    {
-                        leafItem.TemplateValueHolder.Namespace = @namespace;
-                    }
-
-                    var convertedString = _templateService.CreateConvertedTemplateString(leafItem.TemplateValueHolder);
-
-                    _fileOperationService.WriteToFile(parentPath, leafItem.Name, convertedString);
-
+                    GenerateSingleCodeByLeafNode(item as LeafTreeNode, @namespace, parentPath);
                     continue;
                 }
 
                 TraverseAllPath(item, $"{parentPath}\\{item.Name}", $"{@namespace}.{item.Name}", entityName);
 
             }
+        }
+
+        public void GenerateSingleCodeForEntity(EntityInfo entityInfo , ITemplateBaseValueHolder templateBaseValueHolder)
+        {
+            var convertedString = _templateService.CreateConvertedTemplateString(templateBaseValueHolder);
+            _fileService.WriteToFile(entityInfo.FilePath, entityInfo.Name, convertedString);
+        }
+
+        public void GenerateSingleCodeByLeafNode(LeafTreeNode leafItem, string @namespace, string path)
+        {
+
+            //Caution, this is special for class templates to add namespace
+            //As i think, this if block will not be longer with else ifs
+            if (leafItem.TemplateValueHolder is ITemplateClassHolder)
+            {
+                leafItem.TemplateValueHolder.Namespace = @namespace;
+            }
+
+            var convertedString = _templateService.CreateConvertedTemplateString(leafItem.TemplateValueHolder);
+
+            _fileService.WriteToFile(path, leafItem.Name, convertedString);
+        }
+
+        public void GenerateNewEntity(string name, string entityContent)
+        {
+            var path = _fileService.ExtractFilePathOfEntity(name);
+            var @namespace = $"{ProjectHelper.DomainProjectName}.Entities";
+            var entityTemplateValueHolder = _templateService.GetEntityTemplateValueHolder(name, @namespace, entityContent);
+            var convertedEntityTemplateString = _templateService.CreateConvertedTemplateString(entityTemplateValueHolder);
+
+            _fileService.WriteToFile(path, convertedEntityTemplateString);
         }
     }
 }

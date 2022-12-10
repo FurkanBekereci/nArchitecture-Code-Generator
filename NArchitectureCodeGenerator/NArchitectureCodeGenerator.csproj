@@ -45,51 +45,63 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CodeGenerator\FileOperations\Service\FileOperationManager.cs" />
-    <Compile Include="CodeGenerator\FileOperations\Service\IFileOperationService.cs" />
-    <Compile Include="CodeGenerator\PathTreeOperations\Entities\Abstract\BaseTreeNode.cs" />
-    <Compile Include="CodeGenerator\PathTreeOperations\Entities\Concrete\LeafTreeNode.cs" />
-    <Compile Include="CodeGenerator\PathTreeOperations\Entities\Concrete\NonLeafTreeNode.cs" />
-    <Compile Include="CodeGenerator\PathTreeOperations\PathTreeGenerators\Abstract\IPathTreeGenerator.cs" />
-    <Compile Include="CodeGenerator\PathTreeOperations\PathTreeGenerators\Concrete\PersistencePathTreeGenerator.cs" />
-    <Compile Include="CodeGenerator\PathTreeOperations\PathTreeGenerators\Concrete\WebApiPathTreeGenerator.cs" />
-    <Compile Include="CodeGenerator\PathTreeOperations\PathTreeGenerators\Concrete\ApplicationPathTreeGenerator.cs" />
-    <Compile Include="CodeGenerator\PathTreeOperations\Service\IPathTreeOperationService.cs" />
-    <Compile Include="CodeGenerator\PathTreeOperations\Service\PathTreeOperationManager.cs" />
-    <Compile Include="CodeGenerator\ServiceRegistrationOperations\Entities\LineNumberDecider.cs" />
-    <Compile Include="CodeGenerator\ServiceRegistrationOperations\Registrators\Abstract\BaseRegistrator.cs" />
-    <Compile Include="CodeGenerator\ServiceRegistrationOperations\Registrators\Concrete\ApplicationServiceRegistrator.cs" />
-    <Compile Include="CodeGenerator\ServiceRegistrationOperations\Registrators\Concrete\DbContextRegistrator.cs" />
-    <Compile Include="CodeGenerator\ServiceRegistrationOperations\Registrators\Concrete\PersistenceServiceRegistrator.cs" />
-    <Compile Include="CodeGenerator\ServiceRegistrationOperations\Service\IServiceRegistrationService.cs" />
-    <Compile Include="CodeGenerator\ServiceRegistrationOperations\Service\ServiceRegistrationManager.cs" />
+    <Compile Include="Helpers\EntityAnalyzer\Entities\EntityInfo.cs" />
+    <Compile Include="Helpers\EntityAnalyzer\Entities\EntityPropertyInfo.cs" />
+    <Compile Include="Helpers\EntityAnalyzer\Extension\EntityPropertyInfoExtensions.cs" />
+    <Compile Include="Helpers\EntityAnalyzer\Service\EntityAnalyzerManager.cs" />
+    <Compile Include="Helpers\EntityAnalyzer\Service\IEntityAnalyzerService.cs" />
+    <Compile Include="Helpers\FileAppenderHelper\Appenders\Abstract\BaseAppender.cs" />
+    <Compile Include="Helpers\FileAppenderHelper\Appenders\Abstract\BaseAppenderForRelationGenerator.cs" />
+    <Compile Include="Helpers\FileAppenderHelper\Appenders\Concrete\EntityTypeConfigurationAppender.cs" />
+    <Compile Include="Helpers\FileAppenderHelper\Appenders\Concrete\EntityAppender.cs" />
+    <Compile Include="Helpers\FileHelper\Service\FileManager.cs" />
+    <Compile Include="Helpers\FileHelper\Service\IFileService.cs" />
+    <Compile Include="Helpers\PathTreeHelper\Entities\Abstract\BaseTreeNode.cs" />
+    <Compile Include="Helpers\PathTreeHelper\Entities\Concrete\LeafTreeNode.cs" />
+    <Compile Include="Helpers\PathTreeHelper\Entities\Concrete\NonLeafTreeNode.cs" />
+    <Compile Include="Helpers\PathTreeHelper\PathTreeGenerators\Abstract\IPathTreeGenerator.cs" />
+    <Compile Include="Helpers\PathTreeHelper\PathTreeGenerators\Concrete\PersistencePathTreeGenerator.cs" />
+    <Compile Include="Helpers\PathTreeHelper\PathTreeGenerators\Concrete\WebApiPathTreeGenerator.cs" />
+    <Compile Include="Helpers\PathTreeHelper\PathTreeGenerators\Concrete\ApplicationPathTreeGenerator.cs" />
+    <Compile Include="Helpers\PathTreeHelper\Service\IPathTreeOperationService.cs" />
+    <Compile Include="Helpers\PathTreeHelper\Service\PathTreeOperationManager.cs" />
+    <Compile Include="Helpers\RegexHelper.cs" />
+    <Compile Include="Helpers\FileAppenderHelper\Entities\LineNumberDecider.cs" />
+    <Compile Include="Helpers\FileAppenderHelper\Appenders\Abstract\BaseAppenderForCodeGenerator.cs" />
+    <Compile Include="Helpers\FileAppenderHelper\Appenders\Concrete\ApplicationServiceRegistrationAppender.cs" />
+    <Compile Include="Helpers\FileAppenderHelper\Appenders\Concrete\DbContextAppender.cs" />
+    <Compile Include="Helpers\FileAppenderHelper\Appenders\Concrete\PersistenceServiceRegistrationAppender.cs" />
+    <Compile Include="Helpers\FileAppenderHelper\Service\IFileAppenderService.cs" />
+    <Compile Include="Helpers\FileAppenderHelper\Service\FileAppenderManager.cs" />
     <Compile Include="CodeGenerator\Service\CodeGeneratorManager.cs" />
     <Compile Include="CodeGenerator\Service\ICodeGeneratorService.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Abstract\ITemplateBaseValueHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Abstract\ITemplateClassHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Abstract\ITemplateDtoNameHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Abstract\ITemplateEntityNameHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Abstract\ITemplateNameHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Abstract\ITemplateNamespaceHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Abstract\ITemplateOperationTypeHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Abstract\ITemplateRequestNameHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Concrete\CommandTemplateValueHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Concrete\ControllerTemplateValueHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Concrete\DtoTemplateValueHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Concrete\EntityTypeConfigurationTemplateValueHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Concrete\GetByIdQueryTemplateValueHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Concrete\GetListByDynamicQueryTemplateValueHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Concrete\GetListQueryTemplateValueHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Concrete\IRepositoryTemplateValueHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Concrete\NormalClassTemplateValueHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Concrete\PageableModelTemplateValueHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Concrete\MapperTemplateValueHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Concrete\RepositoryTemplateValueHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Entities\Concrete\ValidatorTemplateValueHolder.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Enums\TemplateType.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Service\ITemplateService.cs" />
-    <Compile Include="CodeGenerator\TemplateOperations\Service\TemplateManager.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Abstract\ITemplateBaseValueHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Abstract\ITemplateClassHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Abstract\ITemplateDtoNameHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Abstract\ITemplateEntityNameHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Abstract\ITemplateNameHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Abstract\ITemplateNamespaceHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Abstract\ITemplateRequestNameHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Abstract\ITemplateDynamicContentHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Concrete\CommandTemplateValueHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Concrete\ControllerTemplateValueHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Concrete\DtoTemplateValueHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Concrete\EntityTemplateValueHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Concrete\EntityTypeConfigurationTemplateValueHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Concrete\GetByIdQueryTemplateValueHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Concrete\GetListByDynamicQueryTemplateValueHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Concrete\GetListQueryTemplateValueHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Concrete\IRepositoryTemplateValueHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Concrete\NormalClassTemplateValueHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Concrete\PageableModelTemplateValueHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Concrete\MapperTemplateValueHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Concrete\RepositoryTemplateValueHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Entities\Concrete\ValidatorTemplateValueHolder.cs" />
+    <Compile Include="Helpers\TemplateHelper\Enums\TemplateType.cs" />
+    <Compile Include="Helpers\TemplateHelper\Service\ITemplateService.cs" />
+    <Compile Include="Helpers\TemplateHelper\Service\TemplateManager.cs" />
     <Compile Include="Commands\CodeGeneratorCommand.cs" />
+    <Compile Include="Commands\RelationshipGeneratorCommand.cs" />
     <Compile Include="NArchitectureCodeGeneratorPackageCT.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -97,13 +109,18 @@
     </Compile>
     <Compile Include="Extensions\SelectedItemExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Helpers\FileHelper.cs" />
-    <Compile Include="Helpers\PathHelper.cs" />
     <Compile Include="Helpers\ProgressDialogHelper.cs" />
     <Compile Include="Helpers\ProjectHelper.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NArchitectureCodeGeneratorPackage.cs" />
+    <Compile Include="RelationGenerator\Entities\EntityRelationInfo.cs" />
+    <Compile Include="RelationGenerator\Entities\RelationWindowDialogResult.cs" />
+    <Compile Include="RelationGenerator\RelationWindow.xaml.cs">
+      <DependentUpon>RelationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RelationGenerator\Service\IRelationGeneratorService.cs" />
+    <Compile Include="RelationGenerator\Service\RelationGeneratorManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source.extension.vsixmanifest">
@@ -112,13 +129,17 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity.Design" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Community.VisualStudio.Toolkit.DependencyInjection.Microsoft.16">
@@ -140,13 +161,75 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Templates\*.*">
+    <Content Include="Templates\Command.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Templates\Controller.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Templates\Entity.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\Dto.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Templates\EntityTypeConfiguration.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Templates\GetByIdQuery.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Templates\GetListByDynamicQuery.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Templates\GetListQuery.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Templates\IRepository.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Templates\Mapper.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Templates\NormalClass.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Templates\PageableModel.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Templates\Repository.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Templates\StaticClass.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Templates\Validator.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CodeGenerator\FileOperations\Entities\" />
+    <Folder Include="Helpers\FileHelper\Entities\" />
+    <Folder Include="RelationGenerator\Enums\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="RelationGenerator\RelationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
