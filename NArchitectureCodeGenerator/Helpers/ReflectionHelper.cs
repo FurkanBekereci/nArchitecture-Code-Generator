@@ -1,4 +1,4 @@
-﻿using NArchitectureCodeGenerator.CodeGenerator.TemplateOperations.Entities.Abstract;
+﻿using NArchitectureCodeGenerator.Helpers.TemplateHelper.Entities.Abstract;
 using NArchitectureCodeGenerator.Extensions;
 using System;
 using System.Collections.Generic;

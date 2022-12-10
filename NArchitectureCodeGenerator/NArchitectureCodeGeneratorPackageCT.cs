@@ -15,8 +15,11 @@ namespace NArchitectureCodeGenerator
         public const string guidNArchitectureCodeGeneratorPackageString = "d20044c4-8101-4adf-be40-b3a57c247c96";
         public static Guid guidNArchitectureCodeGeneratorPackage = new Guid(guidNArchitectureCodeGeneratorPackageString);
 
-        public const string guidNArchitectureCodeGeneratorPackageCmdSetString = "d7dda713-9385-4a96-94e6-4241e00ad46a";
-        public static Guid guidNArchitectureCodeGeneratorPackageCmdSet = new Guid(guidNArchitectureCodeGeneratorPackageCmdSetString);
+        public const string guidNArchitectureCodeGeneratorCmdSetString = "d7dda713-9385-4a96-94e6-4241e00ad46a";
+        public static Guid guidNArchitectureCodeGeneratorCmdSet = new Guid(guidNArchitectureCodeGeneratorCmdSetString);
+
+        public const string guidNArchitectureRelationGeneratorCmdSetString = "99cc1f36-24ca-4b66-bfcb-af9209707b0f";
+        public static Guid guidNArchitectureRelationGeneratorCmdSet = new Guid(guidNArchitectureRelationGeneratorCmdSetString);
 
         public const string guidImagesString = "47521464-f92c-4b34-a72c-b3d60f03493e";
         public static Guid guidImages = new Guid(guidImagesString);
@@ -26,10 +29,11 @@ namespace NArchitectureCodeGenerator
     /// </summary>
     internal sealed partial class PackageIds
     {
-        public const int CodeGeneratorMenuGroup = 0x1020;
-        public const int CodeGeneratorCommandId = 0x0100;
-        public const int nArchitectureRootMenu = 0x1021;
-        public const int nArchitectureMenuGroup = 0x1022;
+        public const int rootItem = 0x1020;
+        public const int rootMenu = 0x1021;
+        public const int rootMenuGroup = 0x1022;
+        public const int codeGeneratorCommandId = 0x0100;
+        public const int relationGeneratorCommandId = 0x0100;
         public const int Img1 = 0x0001;
     }
 }

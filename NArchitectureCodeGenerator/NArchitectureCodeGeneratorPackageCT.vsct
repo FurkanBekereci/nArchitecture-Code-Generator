@@ -7,17 +7,21 @@
 
   <Commands package="guidNArchitectureCodeGeneratorPackage">
     <Groups>
-      <Group guid="guidNArchitectureCodeGeneratorPackageCmdSet" id="CodeGeneratorMenuGroup" priority="0x0001">
+      <!--Root grup-->
+      <Group guid="guidNArchitectureCodeGeneratorPackage" id="rootItem" priority="0x0001">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE"/>
       </Group>
-      <Group guid="guidNArchitectureCodeGeneratorPackageCmdSet" id="nArchitectureMenuGroup" priority="0x1000">
-        <Parent guid="guidNArchitectureCodeGeneratorPackageCmdSet" id="nArchitectureRootMenu"/>
+      
+      <!--Menü içindeki butonların bulunacağı grup-->
+      <Group guid="guidNArchitectureCodeGeneratorPackage" id="rootMenuGroup" priority="0x1000">
+        <Parent guid="guidNArchitectureCodeGeneratorPackage" id="rootMenu"/>
       </Group>
     </Groups>
     
     <Menus>
-      <Menu guid="guidNArchitectureCodeGeneratorPackageCmdSet" id="nArchitectureRootMenu" type="Menu" priority="0x1000">
-        <Parent guid="guidNArchitectureCodeGeneratorPackageCmdSet" id="CodeGeneratorMenuGroup" />
+      <!-- Root itema bağlanan menü -->
+      <Menu guid="guidNArchitectureCodeGeneratorPackage" id="rootMenu" type="Menu" priority="0x1000">
+        <Parent guid="guidNArchitectureCodeGeneratorPackage" id="rootItem" />
         <CommandFlag>IconAndText</CommandFlag>
         <Strings>
           <ButtonText>nArchitecture Items</ButtonText>
@@ -27,11 +31,19 @@
     </Menus>
     
     <Buttons>
-      <Button guid="guidNArchitectureCodeGeneratorPackageCmdSet" id="CodeGeneratorCommandId" priority="0x0100" type="Button">
-        <Parent guid="guidNArchitectureCodeGeneratorPackageCmdSet" id="nArchitectureMenuGroup" />
+      <!--Menü içinde bulunan grupta bulunacak ve commandleri çalıştıracak butonlar-->
+      <Button guid="guidNArchitectureCodeGeneratorCmdSet" id="codeGeneratorCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidNArchitectureCodeGeneratorPackage" id="rootMenuGroup" />
         <Icon guid="guidImages" id="Img1" />
         <Strings>
           <ButtonText>Generate Codes By Entity</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidNArchitectureRelationGeneratorCmdSet" id="relationGeneratorCommandId" priority="0x0110" type="Button">
+        <Parent guid="guidNArchitectureCodeGeneratorPackage" id="rootMenuGroup" />
+        <Icon guid="guidImages" id="Img1" />
+        <Strings>
+          <ButtonText>Generate New Relation</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -41,12 +53,20 @@
   </Commands>
 
   <Symbols>
-    <GuidSymbol name="guidNArchitectureCodeGeneratorPackage" value="{d20044c4-8101-4adf-be40-b3a57c247c96}" />
-    <GuidSymbol name="guidNArchitectureCodeGeneratorPackageCmdSet" value="{d7dda713-9385-4a96-94e6-4241e00ad46a}">
-      <IDSymbol name="CodeGeneratorMenuGroup" value="0x1020" />
-      <IDSymbol name="CodeGeneratorCommandId" value="0x0100" />
-      <IDSymbol name="nArchitectureRootMenu" value="0x1021"/>
-      <IDSymbol name="nArchitectureMenuGroup" value="0x1022"/>
+    
+    <GuidSymbol name="guidNArchitectureCodeGeneratorPackage" value="{d20044c4-8101-4adf-be40-b3a57c247c96}" >
+      <IDSymbol name="rootItem" value="0x1020" />
+      <IDSymbol name="rootMenu" value="0x1021"/>
+      <IDSymbol name="rootMenuGroup" value="0x1022"/>
+    </GuidSymbol>
+    
+    <GuidSymbol name="guidNArchitectureCodeGeneratorCmdSet" value="{d7dda713-9385-4a96-94e6-4241e00ad46a}">
+      <IDSymbol name="codeGeneratorCommandId" value="0x0100" />
+    </GuidSymbol>
+
+    <GuidSymbol name="guidNArchitectureRelationGeneratorCmdSet" value="{99cc1f36-24ca-4b66-bfcb-af9209707b0f}">
+      <IDSymbol name="relationGeneratorCommandId" value="0x0100" />
+      
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{47521464-f92c-4b34-a72c-b3d60f03493e}" >

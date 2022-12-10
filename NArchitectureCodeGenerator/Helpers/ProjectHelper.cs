@@ -1,27 +1,24 @@
-﻿using System;
+﻿using NArchitectureCodeGenerator.Helpers.EntityAnalyzer.Entities;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NArchitectureCodeGenerator.Helpers
 {
     public static class ProjectHelper
     {
-        public static string CurrentEntityName { get; set; }
-        public static string ApplicationProjectName { get; private set; }
-        public static string DomainProjectName { get; private set; }
-        public static string PersistenceProjectName { get; private set; }
-        public static string InfrastructureProjectName { get; private set; }
-        public static string WebApiProjectName { get; private set; }
 
-        public static void SetProjectNames(List<string> projectList)
+        public static List<string> FolderPathsOfProject{ get; set; }
+        public static string RootPath { get; set; }
+        public static EntityInfo SelectedEntityInfo { get; set; }
+        public static string ApplicationProjectName => GetProjectName("application");
+        public static string DomainProjectName => GetProjectName("domain");
+        public static string PersistenceProjectName => GetProjectName("persistence");
+        public static string InfrastructureProjectName => GetProjectName("infrastructure");
+        public static string WebApiProjectName => GetProjectName("webapi");
+
+        private static string GetProjectName(string projectType)
         {
-            ApplicationProjectName = projectList.Where(l => l.ToLower().Contains("application")).FirstOrDefault()?.Split('\\').Last() ?? "";
-            DomainProjectName = projectList.Where(l => l.ToLower().Contains("domain")).FirstOrDefault()?.Split('\\').Last() ?? "";
-            InfrastructureProjectName = projectList.Where(l => l.ToLower().Contains("infrastructure")).FirstOrDefault()?.Split('\\').Last() ?? "";
-            PersistenceProjectName = projectList.Where(l => l.ToLower().Contains("persistence")).FirstOrDefault()?.Split('\\').Last() ?? "";
-            WebApiProjectName = projectList.Where(l => l.ToLower().Contains("webapi")).FirstOrDefault()?.Split('\\').Last() ?? "";
+            return FolderPathsOfProject.FirstOrDefault(l => l.ToLower().Contains(projectType))?.Split('\\').Last() ?? "";
         }
     }
 }

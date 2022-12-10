@@ -12,18 +12,18 @@ namespace NArchitectureCodeGenerator.Helpers
 {
     public static class ProgressDialogHelper
     {
-        public async static void ShowDialog(Action action)
+        public async static Task ShowDialogAsync(Action action)
         {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
             //Dialog instance
-            var fac = await VS.Services.GetThreadedWaitDialogAsync() as IVsThreadedWaitDialogFactory;
+            var fac = (IVsThreadedWaitDialogFactory)await VS.Services.GetThreadedWaitDialogAsync();
             IVsThreadedWaitDialog4 twd = fac.CreateInstance();
 
             //Start dialog
             twd.StartWaitDialog("nArchitecture Code Generator", "Please wait...", "", null, "", 1, true, true);
 
-            //Wait 2 sec(sanki arkada deli işler yapıyormuş gibi)
-            Thread.Sleep(2000);
-            //Verilen işlem ne olursa olsun çalıştır diyoruz
+            //Given action will run
             action.Invoke();
 
             //End dialog

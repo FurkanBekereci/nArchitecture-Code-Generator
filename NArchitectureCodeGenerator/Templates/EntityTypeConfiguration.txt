@@ -14,7 +14,7 @@ namespace {namespace}
     {
         public void Configure(EntityTypeBuilder<{entityName}> builder)
         {
-
+            {content}
         }
     }
 }
